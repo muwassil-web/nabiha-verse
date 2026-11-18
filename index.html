@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>NabihaVerse ✨</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background: #080808;
+    color: white;
+    font-family: Georgia, serif;
+}
+
+header {
+    padding: 25px;
+    text-align: center;
+    background: #111;
+    border-bottom: 1px solid #d4af37;
+}
+
+.logo {
+    color: #e8c568;
+    font-size: 36px;
+    letter-spacing: 5px;
+    animation: glow 2s infinite alternate;
+}
+
+@keyframes glow {
+    from {
+        text-shadow: 0 0 5px #c49b37;
+    }
+    to {
+        text-shadow: 0 0 25px #f5d77d;
+    }
+}
+
+nav {
+    margin-top: 20px;
+}
+
+nav a {
+    color: #e8c568;
+    text-decoration: none;
+    margin: 12px;
+}
+
+.hero {
+    text-align: center;
+    padding: 90px 20px;
+    background: radial-gradient(circle, #332711, #080808 70%);
+}
+
+.hero h1 {
+    color: #e8c568;
+    font-size: 45px;
+    margin-bottom: 18px;
+}
+
+.hero p {
+    margin-bottom: 25px;
+    color: #ddd;
+}
+
+button {
+    background: linear-gradient(120deg, #b58a2b, #f5dc8a);
+    color: #111;
+    border: none;
+    padding: 12px 22px;
+    border-radius: 25px;
+    font-weight: bold;
+    cursor: pointer;
+    margin: 5px;
+}
+
+button:hover {
+    transform: scale(1.05);
+}
+
+section {
+    padding: 45px 20px;
+    text-align: center;
+}
+
+h2 {
+    color: #e8c568;
+    margin-bottom: 25px;
+}
+
+.games {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 20px;
+    max-width: 950px;
+    margin: auto;
+}
+
+.card {
+    background: #171717;
+    border: 1px solid #9c792f;
+    padding: 25px;
+    border-radius: 15px;
+}
+
+.card h3 {
+    color: #e8c568;
+    margin-bottom: 15px;
+}
+
+.card p {
+    color: #ccc;
+    margin-bottom: 18px;
+}
+
+input {
+    background: #292929;
+    border: 1px solid #b89642;
+    padding: 10px;
+    color: white;
+    width: 100px;
+    border-radius: 8px;
+    margin: 10px;
+}
+
+.result {
+    color: #f4d783;
+    margin-top: 15px;
+    min-height: 24px;
+}
+
+footer {
+    text-align: center;
+    padding: 30px;
+    color: #b89642;
+    border-top: 1px solid #9c792f;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">NABIHAVERSE ✨</div>
+
+    <nav>
+        <a href="#home">HOME</a>
+        <a href="#games">GAMES</a>
+        <a href="#quiz">QUIZ</a>
+        <a href="#fun">FUN</a>
+    </nav>
+</header>
+
+<div class="hero" id="home">
+    <h1>Welcome to NabihaVerse</h1>
+
+    <p>A magical universe of games, creativity and fun!</p>
+
+    <a href="#games">
+        <button>Explore My World ✨</button>
+    </a>
+</div>
+
+<section id="games">
+
+    <h2>🎮 THE GAMING ZONE</h2>
+
+    <div class="games">
+
+        <div class="card">
+            <h3>🔢 Guess the Number</h3>
+
+            <p>Guess a secret number between 1 and 10!</p>
+
+            <input type="number" id="guess"
+            min="1" max="10" placeholder="1-10">
+
+            <br>
+
+            <button onclick="checkGuess()">Guess!</button>
+
+            <p class="result" id="guessResult"></p>
+
+            <button onclick="newNumber()">New Game</button>
+        </div>
+
+        <div class="card" id="quiz">
+
+            <h3>🧠 Quick Quiz</h3>
+
+            <p id="question">
+                Which planet is known as the Red Planet?
+            </p>
+
+            <button onclick="answer('Earth')">Earth</button>
+
+            <button onclick="answer('Mars')">Mars</button>
+
+            <button onclick="answer('Venus')">Venus</button>
+
+            <p class="result" id="quizResult"></p>
+
+            <button onclick="nextQuestion()">Next Question</button>
+
+        </div>
+
+        <div class="card" id="fun">
+
+            <h3>⚡ Click Challenge</h3>
+
+            <p>How many times can you click in 10 seconds?</p>
+
+            <h2 id="score">0</h2>
+
+            <button onclick="startGame()">Start Challenge</button>
+
+            <button onclick="clickPoint()">CLICK!</button>
+
+            <p class="result" id="timer">Ready?</p>
+
+        </div>
+
+    </div>
+
+</section>
+
+<section>
+
+    <h2>🌟 A LITTLE MESSAGE</h2>
+
+    <div class="card" style="max-width:500px;margin:auto">
+
+        <p id="message">
+            You are the creator of your own universe!
+        </p>
+
+        <br>
+
+        <button onclick="newMessage()">Surprise Me ✨</button>
+
+    </div>
+
+</section>
+
+<footer>
+
+    <p>© 2026 NabihaVerse | Created by Nabiha ✨</p>
+
+    <p>Dream Big. Create Bigger.</p>
+
+</footer>
+
+<script>
+
+// NUMBER GUESSING GAME
+
+let secret = Math.floor(Math.random() * 10) + 1;
+
+function checkGuess() {
+
+    let guess = Number(document.getElementById("guess").value);
+
+    let result = document.getElementById("guessResult");
+
+    if (guess < 1 || guess > 10 || !Number.isInteger(guess)) {
+
+        result.innerText = "Enter a number from 1 to 10!";
+
+    } else if (guess === secret) {
+
+        result.innerText = "🎉 Amazing! You guessed it!";
+
+    } else if (guess < secret) {
+
+        result.innerText = "Try a bigger number!";
+
+    } else {
+
+        result.innerText = "Try a smaller number!";
+
+    }
+}
+
+function newNumber() {
+
+    secret = Math.floor(Math.random() * 10) + 1;
+
+    document.getElementById("guess").value = "";
+
+    document.getElementById("guessResult").innerText =
+    "New number ready!";
+
+}
+
+// QUIZ GAME
+
+let questions = [
+
+    ["Which planet is known as the Red Planet?", "Mars", "Earth", "Venus"],
+
+    ["How many sides does a triangle have?", "3", "4", "5"],
+
+    ["What is the largest ocean?", "Pacific", "Atlantic", "Indian"],
+
+    ["Which animal is known as the King of the Jungle?", "Lion", "Tiger", "Elephant"]
+
+];
+
+let current = 0;
+
+function answer(choice) {
+
+    let result = document.getElementById("quizResult");
+
+    if (choice === questions[current][1]) {
+
+        result.innerText = "Correct! ⭐";
+
+    } else {
+
+        result.innerText = "Good try! The answer is " + questions[current][1];
+
+    }
+}
+
+function nextQuestion() {
+
+    current = (current + 1) % questions.length;
+
+    document.getElementById("question").innerText =
+    questions[current][0];
+
+    let buttons = document.querySelectorAll("#quiz button");
+
+    buttons[0].innerText = questions[current][2];
+
+    buttons[1].innerText = questions[current][1];
+
+    buttons[2].innerText = questions[current][3];
+
+    document.getElementById("quizResult").innerText = "";
+
+}
+
+// CLICK CHALLENGE
+
+let score = 0;
+
+let time = 10;
+
+let playing = false;
+
+let timer;
+
+function startGame() {
+
+    clearInterval(timer);
+
+    score = 0;
+
+    time = 10;
+
+    playing = true;
+
+    document.getElementById("score").innerText = score;
+
+    document.getElementById("timer").innerText =
+    "10 seconds left!";
+
+    timer = setInterval(function() {
+
+        time--;
+
+        document.getElementById("timer").innerText =
+        time + " seconds left!";
+
+        if (time <= 0) {
+
+            clearInterval(timer);
+
+            playing = false;
+
+            document.getElementById("timer").innerText =
+            "Time's up! Your score: " + score;
+
+        }
+
+    }, 1000);
+
+}
+
+function clickPoint() {
+
+    if (!playing) return;
+
+    score++;
+
+    document.getElementById("score").innerText = score;
+
+}
+
+// SURPRISE MESSAGES
+
+let messages = [
+
+    "Believe in your creativity! ✨",
+
+    "You can create amazing things!",
+
+    "Every expert was once a beginner!",
+
+    "Welcome to your magical universe!",
+
+    "Keep dreaming and keep creating!"
+
+];
+
+function newMessage() {
+
+    let random = Math.floor(Math.random() * messages.length);
+
+    document.getElementById("message").innerText =
+    messages[random];
+
+}
+
+</script>
+
+</body>
+</html>
